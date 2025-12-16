@@ -402,9 +402,6 @@ export const UserMenu: React.FC = () => {
 
           {/* 版本信息 */}
           <button
-            onClick={() =>
-              window.open('#')
-            }
             className='w-full px-3 py-2 text-center flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors text-xs'
           >
             <div className='flex items-center gap-1'>
