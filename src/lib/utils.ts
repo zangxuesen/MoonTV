@@ -8,6 +8,8 @@ import Hls from 'hls.js';
 export function getImageProxyUrl(): string | null {
   if (typeof window === 'undefined') return null;
 
+  const defaultImageProxyUrl = 'https://image.baidu.com/search/down?url=';
+
   // 本地未开启图片代理，则不使用代理
   const enableImageProxy = localStorage.getItem('enableImageProxy');
   if (enableImageProxy !== null) {
@@ -15,17 +17,20 @@ export function getImageProxyUrl(): string | null {
       return null;
     }
   }
+  // enableImageProxy 为 null 时，默认启用图片代理
 
   const localImageProxy = localStorage.getItem('imageProxyUrl');
   if (localImageProxy != null) {
     return localImageProxy.trim() ? localImageProxy.trim() : null;
   }
 
-  // 如果未设置，则使用全局对象
+  // 如果未设置，则使用全局对象，没有全局对象则使用默认代理
   const serverImageProxy = (window as any).RUNTIME_CONFIG?.IMAGE_PROXY;
-  return serverImageProxy && serverImageProxy.trim()
-    ? serverImageProxy.trim()
-    : null;
+  if (serverImageProxy && serverImageProxy.trim()) {
+    return serverImageProxy.trim();
+  }
+
+  return defaultImageProxyUrl;
 }
 
 /**
