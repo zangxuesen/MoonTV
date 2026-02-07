@@ -91,6 +91,7 @@ export const UserMenu: React.FC = () => {
       if (savedEnableImageProxy !== null) {
         setEnableImageProxy(JSON.parse(savedEnableImageProxy));
       } else {
+        // 默认启用图片代理
         setEnableImageProxy(true);
       }
 
@@ -98,6 +99,7 @@ export const UserMenu: React.FC = () => {
       if (savedImageProxyUrl !== null) {
         setImageProxyUrl(savedImageProxyUrl);
       } else {
+        // 默认使用百度图片代理地址
         setImageProxyUrl(defaultImageProxy);
       }
 
@@ -261,7 +263,7 @@ export const UserMenu: React.FC = () => {
   };
 
   const handleResetSettings = () => {
-    const defaultImageProxy = (window as any).RUNTIME_CONFIG?.IMAGE_PROXY || '';
+    const defaultImageProxy = (window as any).RUNTIME_CONFIG?.IMAGE_PROXY || 'https://image.baidu.com/search/down?url=';
     const defaultDoubanProxy =
       (window as any).RUNTIME_CONFIG?.DOUBAN_PROXY || '';
 
@@ -269,7 +271,8 @@ export const UserMenu: React.FC = () => {
     setEnableOptimization(true);
     setDoubanProxyUrl(defaultDoubanProxy);
     setEnableDoubanProxy(!!defaultDoubanProxy);
-    setEnableImageProxy(!!defaultImageProxy);
+    // 重置时默认启用图片代理
+    setEnableImageProxy(true);
     setImageProxyUrl(defaultImageProxy);
 
     if (typeof window !== 'undefined') {
@@ -280,10 +283,8 @@ export const UserMenu: React.FC = () => {
         'enableDoubanProxy',
         JSON.stringify(!!defaultDoubanProxy)
       );
-      localStorage.setItem(
-        'enableImageProxy',
-        JSON.stringify(!!defaultImageProxy)
-      );
+      // 重置时默认启用图片代理
+      localStorage.setItem('enableImageProxy', JSON.stringify(true));
       localStorage.setItem('imageProxyUrl', defaultImageProxy);
     }
   };
