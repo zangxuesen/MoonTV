@@ -102,6 +102,7 @@ export default async function RootLayout({
             __html: `window.RUNTIME_CONFIG = ${JSON.stringify(runtimeConfig)};`,
           }}
         />
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="e4cc6b34-7473-46e3-8fea-0c7ea1ff58c8"></script>
       </head>
       <body
         className={`${inter.className} min-h-screen bg-white text-gray-900 dark:bg-black dark:text-gray-200`}
