@@ -35,15 +35,23 @@ export function getImageProxyUrl(): string | null {
 
 /**
  * 处理图片 URL，如果设置了图片代理则使用代理
+ * 当图片源地址服务器是 img9.doubanio.com 时，自动切换到 img3.doubanio.com
  */
 export function processImageUrl(originalUrl: string): string {
   if (!originalUrl) return originalUrl;
 
-  const proxyUrl = getImageProxyUrl();
-  if (!proxyUrl) return originalUrl;
+  // 容错处理：将 img9.doubanio.com 切换为 img3.doubanio.com
+  let processedUrl = originalUrl;
+  if (originalUrl.includes('img9.doubanio.com')) {
+    processedUrl = originalUrl.replace('img9.doubanio.com', 'img3.doubanio.com');
+  }
 
-  return `${proxyUrl}${encodeURIComponent(originalUrl)}`;
+  const proxyUrl = getImageProxyUrl();
+  if (!proxyUrl) return processedUrl;
+
+  return `${proxyUrl}${encodeURIComponent(processedUrl)}`;
 }
+
 
 /**
  * 获取豆瓣代理 URL 设置
